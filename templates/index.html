@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Students Career Challenges - Survey Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      color: #111;
+      background: #fff;
+    }
+    .wrap { max-width: 1240px; margin: 0 auto; padding: 22px 18px 50px; }
+    header { margin-bottom: 18px; }
+    .topline {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    h1 { margin: 0; font-size: 24px; letter-spacing: 0.2px; }
+    .subtitle { color: #444; margin-top: 6px; }
+
+    .summary {
+      margin-top: 14px;
+      border: 1px solid #eee;
+      padding: 14px 14px;
+      border-radius: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px 16px;
+      margin-top: 8px;
+    }
+    @media (min-width: 980px) {
+      .summary-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .summary-item {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff;
+    }
+    .summary-item .label { font-size: 12px; color: #666; margin-bottom: 6px; }
+    .summary-item .value { font-size: 14px; line-height: 1.35; }
+
+    .grid { display: grid; grid-template-columns: 1fr; gap: 18px; margin-top: 18px; }
+    @media (min-width: 1100px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .span-2 { grid-column: 1 / -1; }
+    }
+    .card {
+      border: 1px solid #eee;
+      border-radius: 16px;
+      padding: 14px 14px 10px;
+      background: #fff;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+    }
+    .card h2 { font-size: 16px; margin: 2px 0 10px; }
+    .plot { margin-top: 4px; }
+    .note { font-size: 12px; color: #666; margin-top: 10px; }
+  </style>
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="topline">
+        <h1>Students Career Challenges</h1>
+        <div class="note">{{ summary.n_responses }}</div>
+      </div>
+      <div class="subtitle">Survey analysis dashboard with interactive Plotly charts.</div>
+      <div class="summary">
+        <div class="summary-grid">
+          <div class="summary-item">
+            <div class="label">Top Career Hurdle</div>
+            <div class="value"><b>{{ summary.top_hurdle }}</b></div>
+          </div>
+          <div class="summary-item">
+            <div class="label">Mentor Availability</div>
+            <div class="value">{{ summary.mentor_no }}</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">Skill Confidence (High Support)</div>
+            <div class="value">{{ summary.avg_skill_conf_high }}</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">Skill Confidence (Neutral Support)</div>
+            <div class="value">{{ summary.avg_skill_conf_neutral }}</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">Correlation</div>
+            <div class="value">{{ summary.corr_cgpa_certainty }}</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">How to read charts</div>
+            <div class="value">Hover for details. Charts are based on 1–10 ordinal scores and capped salary for readability.</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+    <div class="card span-2">
+      <h2>Biggest Career Hurdles</h2>
+      <div class="plot">{{ fig_hurdles|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>Mentor Availability vs Family Support</h2>
+      <div class="plot">{{ fig_mentor_family|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>Gender Distribution</h2>
+      <div class="plot">{{ fig_gender|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>City Type Distribution</h2>
+      <div class="plot">{{ fig_city|safe }}</div>
+    </div>
+
+    <div class="card span-2">
+      <h2>Career Certainty vs Job Market Hope</h2>
+      <div class="plot">{{ fig_scatter|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>Confidence & Hope by Year</h2>
+      <div class="plot">{{ fig_year|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>Family Support vs Skill Confidence</h2>
+      <div class="plot">{{ fig_family_violin|safe }}</div>
+    </div>
+
+    <div class="card span-2">
+      <h2>CGPA vs Career Certainty</h2>
+      <div class="plot">{{ fig_cgpa_cert|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>Self-Learning Hours Distribution</h2>
+      <div class="plot">{{ fig_self_learn|safe }}</div>
+    </div>
+
+    <div class="card">
+      <h2>Expected Salary by Major</h2>
+      <div class="plot">{{ fig_salary_major|safe }}</div>
+    </div>
+
+    <div class="card span-2">
+      <h2>Correlation Matrix</h2>
+      <div class="plot">{{ fig_corr|safe }}</div>
+    </div>
+    </div>
+  </div>
+</body>
+</html>
+
